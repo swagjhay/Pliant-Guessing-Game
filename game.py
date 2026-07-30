@@ -50,6 +50,12 @@ def multiplayer():
     #get the names of the players
     for i in range(num_players):
         name = input(f"Enter the name of player{i + 1}: ")
+        #if name is already in the list, ask for a different name
+        original_name = name
+        counter = 2
+        while name in players:
+            name = f"{original_name}{counter}"
+            counter += 1
         players.append(name)
     #track each player's attempts in a dictionary.
     attempts = {player: 0 for player in players}
