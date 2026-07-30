@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 from game import single_player, multiplayer
 
 def main():
