@@ -31,6 +31,7 @@ def single_player(min_number, max_number, close_range):
             continue
 
 def multiplayer(min_number, max_number, close_range):
+    secret_number = random.randrange(min_number, max_number + 1)
     # get the number of players (validate input)
     while True:
         try:
@@ -70,7 +71,7 @@ def multiplayer(min_number, max_number, close_range):
             attempts[current_player] += 1
             #if the user guesses the secret number, it will return a message with the number of attempts it took to guess correctly
             if guess == secret_number:
-                return f"That was correct!!! {current_player} got the lucky number in {attempts[current_player]} attempts"
+                return f"That was correct!!! {current_player} got the lucky number in {attempts[current_player]} attempts."
             #let's you know if your close to the secret number
             #the user has to figure if it is a higher or lower number
             elif abs(guess - secret_number) <= close_range:
@@ -85,5 +86,3 @@ def multiplayer(min_number, max_number, close_range):
             print("Please enter a valid number")
             continue
 
-if __name__ == '__main__':
-    main()
