@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 from game import single_player, multiplayer
+import time
+
+def play_again():
+    while True:
+        choice = input("Do you want to play again? (y/n): ").lower()
+        if choice.lower() == "y":
+            return True
+        elif choice.lower() == "n":
+            print("Exiciting the game ...")
+            time.sleep(1)
+            print("Thanks for playing! Goodbye!")
+            return False
 
 def main():
     while True:
@@ -13,10 +25,14 @@ def main():
         choice = int(input("Choose an option: ")) 
         if choice == 1:
             min_number, max_number, close_range = game_mode()
-            single_player(min_number, max_number, close_range)
+            print(single_player(min_number, max_number, close_range))
+            if not play_again():
+                break
         elif choice == 2:
             min_number, max_number, close_range = game_mode()
-            multiplayer(min_number, max_number, close_range)
+            print(multiplayer(min_number, max_number, close_range))
+            if not play_again():
+                break
         elif choice == 3:
             print("Exiting the game. Goodbye!")
             break
