@@ -2,13 +2,9 @@
 import random
 
 
-min_number = 1
-max_number = 50
-close_range = 3
-secret_number = random.randrange(min_number, max_number + 1)
-
-def single_player():
+def single_player(min_number, max_number, close_range):
     attempt = 0
+    secret_number = random.randrange(min_number, max_number + 1)
     while True:
         try:
             guess = int(input(f"Guess a number ({min_number}-{max_number}): "))
@@ -34,7 +30,7 @@ def single_player():
             print("Please enter a valid number")
             continue
 
-def multiplayer():
+def multiplayer(min_number, max_number, close_range):
     # get the number of players (validate input)
     while True:
         try:
@@ -88,9 +84,6 @@ def multiplayer():
         except ValueError:
             print("Please enter a valid number")
             continue
-#main function to run the single player game as of now, will be updated to include multiplayer in the future
-def main():
-    print(single_player())
 
 if __name__ == '__main__':
     main()
