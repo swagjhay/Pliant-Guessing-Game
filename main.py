@@ -8,7 +8,7 @@ def play_again():
         if choice.lower() == "y":
             return True
         elif choice.lower() == "n":
-            print("Exiciting the game ...")
+            print("Exiting the game ...")
             time.sleep(1)
             print("Thanks for playing! Goodbye!")
             return False
