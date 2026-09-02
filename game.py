@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import random
 
-
 def single_player(min_number, max_number, close_range):
     attempt = 0
     secret_number = random.randrange(min_number, max_number + 1)
@@ -16,7 +15,7 @@ def single_player(min_number, max_number, close_range):
             attempt += 1
             #if the user guesses the secret number, it will return a message with the number of attempts it took to guess correctly
             if guess == secret_number:
-                return f"That was correct!!! You got the lucky number in {attempt} attempts"
+                return attempt
             #let's you know if your close to the secret number
             #the user has to figure if it is a higher or lower number
             elif abs(guess - secret_number) <= close_range:
