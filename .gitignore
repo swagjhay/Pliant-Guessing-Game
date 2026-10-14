@@ -1,0 +1,10 @@
+# Python cache files (created automatically when the game runs)
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Each player's own saved scores (the game creates this file when needed)
+highscores.json

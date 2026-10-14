@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
 import random
+ 
+def get_name(prompt):
+    """Ask until the player types a name that isn't blank."""
+    while True:
+        name = input(prompt).strip()
+        if name:
+            return name
+        print("Name cannot be empty. Please try again.")
 
-
-
-
+def calculate_score(attempts, penalty):
+    """1 attempt = 100 points, each extra attempt costs `penalty`, never below 0."""
+    return max(0, 100 - (attempts - 1) * penalty)
+ 
 def single_player(min_number, max_number, close_range):
     attempt = 0
+    guessed = set()  # numbers already tried this game
     secret_number = random.randrange(min_number, max_number + 1)
-    player_name = input("Enter your name:")
+    player_name = get_name("Enter your name: ")
     while True:
         try:
             guess = int(input(f"Guess a number ({min_number}-{max_number}): "))
@@ -15,6 +25,11 @@ def single_player(min_number, max_number, close_range):
             if guess < min_number or guess > max_number:
                 print(f"Please enter a number between {min_number} and {max_number}")
                 continue
+            # a repeated guess is a mistake, so warn and don't count it
+            if guess in guessed:
+                print(f"You already guessed {guess}. Try a different number.")
+                continue
+            guessed.add(guess)
             #attempts counter starts the moment the user enters a valid number
             attempt += 1
             #if the user guesses the secret number, it will return a message with the number of attempts it took to guess correctly
@@ -32,15 +47,15 @@ def single_player(min_number, max_number, close_range):
         except ValueError:
             print("Please enter a valid number")
             continue
-
+ 
 def multiplayer(min_number, max_number, close_range):
     secret_number = random.randrange(min_number, max_number + 1)
     # get the number of players (validate input)
     while True:
         try:
             num_players = int(input("Enter the number of players: "))
-            if num_players < 2:
-                print("There must be at least 2 players")
+            if num_players < 2 or num_players > 10:
+                print("Please enter between 2 and 10 players")
                 continue
             break
         except ValueError:
@@ -49,18 +64,20 @@ def multiplayer(min_number, max_number, close_range):
     players = []
     #get the names of the players
     for i in range(num_players):
-        name = input(f"Enter the name of player{i + 1}: ")
-        #if name is already in the list, ask for a different name
+        name = get_name(f"Enter the name of player {i + 1}: ")
+        # if the name is already taken (ignoring capitals), add a number to it
         original_name = name
         counter = 2
-        while name in players:
+        taken = [player.lower() for player in players]
+        while name.lower() in taken:
             name = f"{original_name}{counter}"
             counter += 1
         players.append(name)
     #track each player's attempts in a dictionary.
     attempts = {player: 0 for player in players}
     turn = 0 # keep track of whose turn it is
-
+    guessed = set()  # numbers any player has already tried
+ 
     while True:
         # get the current player based on the turn
         current_player = players[turn % num_players]
@@ -70,6 +87,11 @@ def multiplayer(min_number, max_number, close_range):
             if guess < min_number or guess > max_number:
                 print(f"Please enter a number between {min_number} and {max_number}")
                 continue
+            # same player tries again: continue skips "turn += 1" below
+            if guess in guessed:
+                print(f"{guess} has already been guessed. Try a different number.")
+                continue
+            guessed.add(guess)
             #increment the current player's attempts
             attempts[current_player] += 1
             #if the user guesses the secret number, it will return a message with the number of attempts it took to guess correctly
@@ -88,4 +110,3 @@ def multiplayer(min_number, max_number, close_range):
         except ValueError:
             print("Please enter a valid number")
             continue
-
